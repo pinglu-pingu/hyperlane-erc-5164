@@ -13,12 +13,11 @@ import "./ERC5164/utils/ERC5164CrossChainExecutorBase.sol";
  * @notice `CrossChainExecutor` implementation that receives messages via a Hyperlane `Inbox` as its transporter
  */
 contract HyperlaneERC5164Executor is ERC5164CrossChainExecutorBase, IMessageRecipient {
-
   /// @notice `Inbox` contract reference
-  IInbox inbox;
+  IInbox public inbox;
 
-  // @notice Hyperlane identifier of origin chain
-  uint32 originDomain;
+  /// @notice Hyperlane identifier of origin chain
+  uint32 public originDomain;
 
   /**
    * @notice HyperlaneERC5164Executor constructor.

@@ -39,7 +39,7 @@ contract MockERC5164CallTarget is ERC5164CallTargetBase {
    * @param message Message that was relayed
    * @dev Only accepts messages from trusted executors
    */
-  function receiveMessage(string memory message) external onlyTrustedExecutor {
+  function receiveMessage(string calldata message) external onlyTrustedExecutor {
     uint256 nonce = _nonce();
     address msgSender = _msgSender();
 

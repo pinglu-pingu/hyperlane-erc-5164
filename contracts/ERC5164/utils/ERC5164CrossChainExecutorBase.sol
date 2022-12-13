@@ -20,7 +20,7 @@ abstract contract ERC5164CrossChainExecutorBase is IERC5164CrossChainExecutor {
 
   /**
    * @notice Execute calls from the origin chain.
-   * @dev Will revert if `_calls` have already been executed.
+   * @dev Will revert if `calls` have already been executed.
    * @dev Will revert if a call fails.
    * @dev Must emit the `ExecutedCalls` event once calls have been executed.
    * @param relayer Address of the relayer on the origin chain

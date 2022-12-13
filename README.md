@@ -55,6 +55,13 @@ Create a `.env` file and set the following variables
 
 Fund the account for the above private key with test tokens from a faucet (e.g the Paradigm faucet at [https://faucet.paradigm.xyz](https://faucet.paradigm.xyz).)
 
+These additional variables can also be set depending on your networks of choice
+
+- `MOONSCAN_API_KEY`
+- `POLYSCAN_API_KEY`
+- `SNOWTRACE_API_KEY`
+- `ARBISCAN_API_KEY`
+
 #### Compile contracts
 ```sh
 $ yarn build
@@ -69,24 +76,24 @@ $ yarn clean
 
 ##### Deploy the Hyperlane EIP-5164 executor
 ```sh
-$ yarn hardhat deploy-executor --network goerli --origin mumbai
+$ yarn hardhat deploy-executor --network goerli --origin moonbasealpha
 ```
 
 ##### Deploy the Hyperlane EIP-5164 relayer
 ```sh
-$ yarn hardhat deploy-relayer --network mumbai --executor "EXECUTOR_ADDRESS" --remote mumbai
+$ yarn hardhat deploy-relayer --network moonbasealpha --executor "EXECUTOR_ADDRESS" --remote goerli
 ```
 
 #### Send messages via Hyperlane EIP-5164 relayer and executor contracts
 
 ##### Deploy an EIP-5164 call target
 ```sh
-$ yarn hardhat deploy-call-target --network goerli --origin mumbai --executor "EXECUTOR_ADDRESS"
+$ yarn hardhat deploy-call-target --network goerli --executor "EXECUTOR_ADDRESS"
 ```
 
 ##### Send a message to the EIP-5164 call target via the EIP-5164 relayer and executor contracts
 ```sh
-$ yarn hardhat send-message  --network mumbai --relayer "RELAYER_ADDRESS" --remote goerli --target "CALL_TARGET_ADDRESS" --message "MESSAGE"
+$ yarn hardhat send-message --network moonbasealpha --relayer "RELAYER_ADDRESS" --target "CALL_TARGET_ADDRESS" --message "MESSAGE"
 ```
 
 ### Automated Testing
