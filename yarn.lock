@@ -382,7 +382,7 @@
   resolved "https://registry.yarnpkg.com/@hyperlane-xyz/celo-ethers-provider/-/celo-ethers-provider-0.1.1.tgz#596dbf180cd476781e8d3bdd9ba595e7438563f0"
   integrity sha512-Kl+qV4J+5PGwFN+dCQ+bu42y5FXkvQKDuZVLRKehk/L6/Otj+UO0PL+U532Y3/RaWH0xtpsImONfL7+edzOFtw==
 
-"@hyperlane-xyz/core@0.5.6":
+"@hyperlane-xyz/core@0.5.6", "@hyperlane-xyz/core@^0.5.6":
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/@hyperlane-xyz/core/-/core-0.5.6.tgz#0b1c7b064007feb2f75f04d88771a038e15e64ed"
   integrity sha512-TK0qZ+MImiEN/jWXthT6juOhoqgnmPqjaozv3TO8cmTrfQt2UaN76SKUwX58jCEcxs/stqwT9o4eZuDR3yW0pQ==
