@@ -26,7 +26,6 @@ contract MockERC5164CallTarget is ERC5164CallTargetBase {
    */
   event ReceivedMessage(uint256 nonce, address sender, string message);
 
-  /// @inheritdoc ERC5164CallTargetBase
   /**
    * @notice MockERC5164CallTarget constructor.
    * @param executor_ Address of the `CrossChainExecutor` contract
