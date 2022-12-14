@@ -13,19 +13,25 @@ describe("Hyperlane EIP-5164", function () {
       const destinationDomain = 2;
       const testMessage = "This is a test"
       const signer = (await ethers.getSigners())[0];
+
+      // Deploy inbox
       const inbox = await new MockInbox__factory(signer as any).deploy();
       await inbox.deployed();
+
+      // Deploy outbox
       const outbox = await new MockOutbox__factory(signer as any).deploy(
         originDomain,
         inbox.address
       );
       await outbox.deployed();
 
+      // Deploy EIP-5164 executor/Hyperlane receiver
       const executorFactory = await ethers.getContractFactory(
         CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR
       );
       const executor = await executorFactory.deploy(inbox.address, originDomain);
 
+      // Deploy EIP-5164 relayer/Hyperlane sender
       const relayerFactory = await ethers.getContractFactory(
         CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER
       );
@@ -36,11 +42,13 @@ describe("Hyperlane EIP-5164", function () {
         GAS_LIMIT.MAX
       );
 
+      // Deploy call target contract
       const callTargetFactory = await ethers.getContractFactory(
         CONTRACT_NAMES.EIP5164_CALL_TARGET
       );
       const callTarget = await callTargetFactory.deploy(executor.address);
 
+      // Send a message to the call target via the EIP-5164 relayer/ Hyperlane sender
       const calls = [
         {
           target: callTarget.address,
@@ -64,8 +72,10 @@ describe("Hyperlane EIP-5164", function () {
           return true;
         }, GAS_LIMIT.CALL);
 
+      // Process the message
       await inbox.processNextPendingMessage();
 
+      // Validate that the message was delivered to the call target
       expect(await callTarget.lastNonce()).to.equal(1);
       expect(await callTarget.lastSender()).to.equal(signer.address);
       expect(await callTarget.lastMessage()).to.equal(testMessage);
