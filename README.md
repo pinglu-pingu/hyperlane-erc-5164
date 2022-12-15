@@ -31,6 +31,7 @@ David Semakula
 ### Email
 hello@davidsemakula.com
 
+**NOTE**: This is my second submission for this issue, the first submission is at [https://github.com/davidsemakula/safe-hyperlane-router](https://github.com/davidsemakula/safe-hyperlane-router)
 
 ## Video Demo
 [https://share.vidyard.com/watch/SPzo9KvH2fJbrTXtwfaHms?](https://share.vidyard.com/watch/SPzo9KvH2fJbrTXtwfaHms?)
