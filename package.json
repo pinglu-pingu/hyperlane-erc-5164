@@ -2,6 +2,8 @@
   "name": "hyperlane-eip-5164",
   "description": "Hyperlane EIP-5164 Implementation",
   "version": "0.1.0",
+  "license": "GPL-3.0",
+  "private": true,
   "dependencies": {
     "@hyperlane-xyz/core": "^0.5.6",
     "@hyperlane-xyz/sdk": "^0.5.6"
@@ -27,8 +29,6 @@
     "typechain": "^8.1.1",
     "typescript": ">=4.5.0"
   },
-  "license": "GPL-3.0",
-  "main": "index.js",
   "scripts": {
     "clean": "hardhat clean && rm -rf dist cache types coverage coverage.json",
     "build": "hardhat compile",
