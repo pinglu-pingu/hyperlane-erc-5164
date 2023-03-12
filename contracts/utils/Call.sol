@@ -7,6 +7,6 @@ pragma solidity 0.8.17;
  * @param data Data that will be sent to the `target` address
  */
 struct Call {
-  address target;
-  bytes data;
+    address target;
+    bytes data;
 }

@@ -1,23 +1,21 @@
-require("dotenv").config();
-import * as ethers from "ethers";
+require('dotenv').config();
+import * as ethers from 'ethers';
 import {
   chainConnectionConfigs,
   ChainName,
   ChainNameToDomainId,
   DomainIdToChainName,
-  hyperlaneCoreAddresses as HyperlaneCoreAddresses,
+  hyperlaneCoreAddresses,
   MultiProvider,
-} from "@hyperlane-xyz/sdk";
-import "@nomicfoundation/hardhat-toolbox";
-import "@nomiclabs/hardhat-etherscan";
-import "hardhat-gas-reporter";
-import {HardhatUserConfig, task, types} from "hardhat/config";
-import networks from "./hardhat.network";
-import {CONTRACT_NAMES, FUNCTION_NAMES, GAS_LIMIT} from "./utils/constants";
+} from '@hyperlane-xyz/sdk';
+import '@nomicfoundation/hardhat-toolbox';
+import '@nomiclabs/hardhat-etherscan';
+import 'hardhat-gas-reporter';
+import { HardhatUserConfig, task, types } from 'hardhat/config';
+import networks from './hardhat.network';
+import { CONTRACT_NAMES, FUNCTION_NAMES, GAS_LIMIT } from './utils/constants';
 
-const hyperlaneCoreAddresses = HyperlaneCoreAddresses as Record<string, any>;
-
-const SOLIDITY_VERSION: string = '0.8.17';
+const SOLIDITY_VERSION = '0.8.17';
 const ETHERSCAN_API_KEY: string = process.env.ETHERSCAN_API_KEY;
 const MOONSCAN_API_KEY: string = process.env.MOONSCAN_API_KEY;
 const POLYSCAN_API_KEY: string = process.env.POLYSCAN_API_KEY;
@@ -32,15 +30,15 @@ const config: HardhatUserConfig = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200
-      }
-    }
+        runs: 200,
+      },
+    },
   },
   paths: {
     sources: './contracts',
     tests: './test',
     cache: './cache',
-    artifacts: './artifacts'
+    artifacts: './artifacts',
   },
   etherscan: {
     apiKey: {
@@ -72,22 +70,16 @@ const config: HardhatUserConfig = {
   },
   gasReporter: {
     enabled: !!process.env.REPORT_GAS,
-  }
+  },
 };
 
 const multiProvider = new MultiProvider(chainConnectionConfigs);
 
-task("deploy-executor", `deploys the ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR} contract`)
-  .addParam(
-    "origin",
-    "the name of the origin chain",
-    undefined,
-    types.string,
-    false
-  )
+task('deploy-executor', `deploys the ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR} contract`)
+  .addParam('origin', 'the name of the origin chain', undefined, types.string, false)
   .setAction(async (taskArgs, hre) => {
     console.log(
-      `Deploying ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR} on ${hre.network.name} for messages from ${taskArgs.origin}`
+      `Deploying ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR} on ${hre.network.name} for messages from ${taskArgs.origin}`,
     );
     const remote = hre.network.name as ChainName;
     const origin = taskArgs.origin as ChainName;
@@ -101,31 +93,20 @@ task("deploy-executor", `deploys the ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR
     await contract.deployTransaction.wait();
 
     console.log(
-      `Deployed ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR} to ${contract.address} on ${hre.network.name} listening to the outbox on ${origin} with transaction ${contract.deployTransaction.hash}`
+      `Deployed ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR} to ${contract.address} on ${hre.network.name} listening to the outbox on ${origin} with transaction ${contract.deployTransaction.hash}`,
     );
     console.log(`You can verify the contracts with:`);
-    console.log(
-      `$ yarn hardhat verify --network ${hre.network.name} ${contract.address} ${inbox} ${originDomain}`
-    );
+    console.log(`$ yarn hardhat verify --network ${hre.network.name} ${contract.address} ${inbox} ${originDomain}`);
   });
 
-task(
-  "deploy-relayer",
-  `deploys the ${CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER} contract`
-)
+task('deploy-relayer', `deploys the ${CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER} contract`)
+  .addParam('executor', `address of the ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR}`, undefined, types.string, false)
   .addParam(
-    "executor",
-    `address of the ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR}`,
-    undefined,
-    types.string,
-    false
-  )
-  .addParam(
-    "remote",
+    'remote',
     `Name of the remote chain on which ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR} is on`,
     undefined,
     types.string,
-    false
+    false,
   )
   .setAction(async (taskArgs, hre) => {
     console.log(`Deploying ${CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER} on ${hre.network.name}`);
@@ -141,26 +122,17 @@ task(
     await contract.deployTransaction.wait();
 
     console.log(
-      `Deployed ${CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER} to ${contract.address} on ${hre.network.name} with transaction ${contract.deployTransaction.hash}`
+      `Deployed ${CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER} to ${contract.address} on ${hre.network.name} with transaction ${contract.deployTransaction.hash}`,
     );
 
     console.log(`You can verify the contracts with:`);
     console.log(
-      `$ yarn hardhat verify --network ${hre.network.name} ${contract.address} ${outbox} ${remoteDomain} ${taskArgs.executor} ${GAS_LIMIT.MAX}`
+      `$ yarn hardhat verify --network ${hre.network.name} ${contract.address} ${outbox} ${remoteDomain} ${taskArgs.executor} ${GAS_LIMIT.MAX}`,
     );
   });
 
-task(
-  "deploy-call-target",
-  `deploys the ${CONTRACT_NAMES.EIP5164_CALL_TARGET} contract`
-)
-  .addParam(
-    "executor",
-    `address of the ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR}`,
-    undefined,
-    types.string,
-    false
-  )
+task('deploy-call-target', `deploys the ${CONTRACT_NAMES.EIP5164_CALL_TARGET} contract`)
+  .addParam('executor', `address of the ${CONTRACT_NAMES.HYPERLANE_EIP5164_EXECUTOR}`, undefined, types.string, false)
   .setAction(async (taskArgs, hre) => {
     console.log(`Deploying ${CONTRACT_NAMES.EIP5164_CALL_TARGET} on ${hre.network.name}`);
 
@@ -170,39 +142,17 @@ task(
     await contract.deployTransaction.wait();
 
     console.log(
-      `Deployed ${CONTRACT_NAMES.EIP5164_CALL_TARGET} to ${contract.address} on ${hre.network.name} with transaction ${contract.deployTransaction.hash}`
+      `Deployed ${CONTRACT_NAMES.EIP5164_CALL_TARGET} to ${contract.address} on ${hre.network.name} with transaction ${contract.deployTransaction.hash}`,
     );
 
     console.log(`You can verify the contracts with:`);
-    console.log(
-      `$ yarn hardhat verify --network ${hre.network.name} ${contract.address} ${taskArgs.executor}`
-    );
+    console.log(`$ yarn hardhat verify --network ${hre.network.name} ${contract.address} ${taskArgs.executor}`);
   });
 
-task(
-  `send-message`,
-  `sends a message via a deployed ${CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER}`
-)
-  .addParam(
-    "relayer",
-    `Address of the ${CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER}`,
-    undefined,
-    types.string,
-    false
-  )
-  .addParam(
-    "target",
-    `address of the ${CONTRACT_NAMES.EIP5164_CALL_TARGET}`,
-    undefined,
-    types.string,
-    false
-  )
-  .addParam(
-    "message",
-    "the message you want to send",
-    "HelloWorld",
-    types.string
-  )
+task(`send-message`, `sends a message via a deployed ${CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER}`)
+  .addParam('relayer', `Address of the ${CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER}`, undefined, types.string, false)
+  .addParam('target', `address of the ${CONTRACT_NAMES.EIP5164_CALL_TARGET}`, undefined, types.string, false)
+  .addParam('message', 'the message you want to send', 'HelloWorld', types.string)
   .setAction(async (taskArgs, hre) => {
     const relayerFactory = await hre.ethers.getContractFactory(CONTRACT_NAMES.HYPERLANE_EIP5164_RELAYER);
     const relayer = relayerFactory.attach(taskArgs.relayer);
@@ -214,36 +164,29 @@ task(
     const remoteDomain = await relayer.destinationDomain();
     const remote = DomainIdToChainName[remoteDomain];
 
-    console.log(
-      `Sending message "${taskArgs.message}" from ${hre.network.name} to ${remote}`
-    );
+    console.log(`Sending message "${taskArgs.message}" from ${hre.network.name} to ${remote}`);
 
     const tx = await relayer.relayCalls(
       [
         {
           target: callTarget.address,
           data: ethers.utils.arrayify(
-            callTarget.interface.encodeFunctionData(
-              FUNCTION_NAMES.EIP5164_CALL_TARGET_RECEIVE_MESSAGE, [
-                taskArgs.message as string
-              ]
-            )
+            callTarget.interface.encodeFunctionData(FUNCTION_NAMES.EIP5164_CALL_TARGET_RECEIVE_MESSAGE, [
+              taskArgs.message as string,
+            ]),
           ),
-        }
-      ], GAS_LIMIT.CALL
+        },
+      ],
+      GAS_LIMIT.CALL,
     );
     await tx.wait();
 
     console.log(
-      `Send message at txHash ${tx.hash}. Check the explorer at https://explorer.hyperlane.xyz/?search=${tx.hash}`
+      `Send message at txHash ${tx.hash}. Check the explorer at https://explorer.hyperlane.xyz/?search=${tx.hash}`,
     );
 
-    const recipientUrl = await multiProvider
-      .getChainConnection(remote)
-      .getAddressUrl(executor);
-    console.log(
-      `Check out the explorer page for receiver ${recipientUrl}#events`
-    );
+    const recipientUrl = await multiProvider.getChainConnection(remote).getAddressUrl(executor);
+    console.log(`Check out the explorer page for receiver ${recipientUrl}#events`);
   });
 
 export default config;

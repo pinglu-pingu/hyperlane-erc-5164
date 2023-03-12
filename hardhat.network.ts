@@ -1,10 +1,9 @@
-import { HardhatUserConfig } from "hardhat/config";
-import { chainConnectionConfigs, objMap } from "@hyperlane-xyz/sdk";
+import { HardhatUserConfig } from 'hardhat/config';
+import { chainConnectionConfigs, objMap } from '@hyperlane-xyz/sdk';
 
 const accounts: Array<string> = [process.env.PRIVATE_KEY];
 const networks: HardhatUserConfig['networks'] = {
   ...objMap(chainConnectionConfigs, (_chain, cc) => ({
-    // @ts-ignore
     url: (cc.provider.connection.url || '').toString().trim(),
     accounts,
   })),
