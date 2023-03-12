@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
 
-import "../ERC5164/utils/ERC5164CallTargetBase.sol";
+import { ERC5164CallTargetBase } from "../utils/ERC5164CallTargetBase.sol";
 
 /**
  * @title MockERC5164CallTarget implementation

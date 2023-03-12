@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
 
-import "../interfaces/IERC5164CrossChainRelayer.sol";
-import "../interfaces/IERC5164CrossChainExecutor.sol";
-import "../libraries/ERC5164CallData.sol";
+import { IERC5164CrossChainRelayer } from "../interfaces/IERC5164CrossChainRelayer.sol";
+import { IERC5164CrossChainExecutor } from "../interfaces/IERC5164CrossChainExecutor.sol";
+import { Call } from "../utils/Call.sol";
 
 /**
  * @title CrossChainExecutor abstract contract.
@@ -32,7 +32,7 @@ abstract contract ERC5164CrossChainExecutorBase is IERC5164CrossChainExecutor {
     IERC5164CrossChainRelayer relayer,
     uint256 nonce,
     address sender,
-    ERC5164CallData.Call[] memory calls
+    Call[] memory calls
   ) internal {
     if (executedNonces[nonce]) {
       revert CallsAlreadyExecuted(nonce);
@@ -42,7 +42,7 @@ abstract contract ERC5164CrossChainExecutorBase is IERC5164CrossChainExecutor {
 
     uint256 callsLength = calls.length;
     for (uint256 idx; idx < callsLength; idx++) {
-      ERC5164CallData.Call memory _call = calls[idx];
+      Call memory _call = calls[idx];
 
       (bool success, bytes memory returnData) = _call.target.call(
         abi.encodePacked(_call.data, nonce, sender)

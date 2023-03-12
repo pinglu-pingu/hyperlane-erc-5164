@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
 
-import "./IERC5164CrossChainRelayer.sol";
-import "../libraries/ERC5164CallData.sol";
+import { IERC5164CrossChainRelayer } from "./IERC5164CrossChainRelayer.sol";
 
 /**
  * @title CrossChainExecutor interface

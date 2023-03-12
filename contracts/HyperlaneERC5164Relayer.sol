@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
 
-import "@hyperlane-xyz/core/interfaces/IOutbox.sol";
-import "@hyperlane-xyz/core/contracts/libs/TypeCasts.sol";
-import "./ERC5164/libraries/ERC5164CallData.sol";
-import "./ERC5164/interfaces/IERC5164CrossChainRelayer.sol";
-import "./ERC5164/interfaces/IERC5164CrossChainExecutor.sol";
+import { IOutbox } from "@hyperlane-xyz/core/interfaces/IOutbox.sol";
+import { TypeCasts } from "@hyperlane-xyz/core/contracts/libs/TypeCasts.sol";
+
+import { IERC5164CrossChainRelayer } from "./interfaces/IERC5164CrossChainRelayer.sol";
+import { IERC5164CrossChainExecutor } from "./interfaces/IERC5164CrossChainExecutor.sol";
+import { Call } from "./utils/Call.sol";
 
 /**
  * @title HyperlaneERC5164Relayer implementation
@@ -42,7 +43,7 @@ contract HyperlaneERC5164Relayer is IERC5164CrossChainRelayer {
   }
 
   /// @inheritdoc IERC5164CrossChainRelayer
-  function relayCalls(ERC5164CallData.Call[] calldata calls, uint256 gasLimit) external payable returns (uint256) {
+  function relayCalls(Call[] calldata calls, uint256 gasLimit) external payable returns (uint256) {
     uint256 _maxGasLimit = maxGasLimit;
 
     if (gasLimit > _maxGasLimit) {

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
 
-import "../libraries/ERC5164CallData.sol";
+import { Call } from "../utils/Call.sol";
 
 /**
  * @title CrossChainRelayer interface
@@ -18,7 +18,7 @@ interface IERC5164CrossChainRelayer {
   event RelayedCalls(
     uint256 indexed nonce,
     address indexed sender,
-    ERC5164CallData.Call[] calls,
+    Call[] calls,
     uint256 gasLimit
   );
 
@@ -39,7 +39,7 @@ interface IERC5164CrossChainRelayer {
    * @param gasLimit Maximum amount of gas required for the `calls` to be executed
    * @return uint256 Nonce to uniquely identify the batch of calls
    */
-  function relayCalls(ERC5164CallData.Call[] calldata calls, uint256 gasLimit)
+  function relayCalls(Call[] calldata calls, uint256 gasLimit)
     external
     payable
     returns (uint256);

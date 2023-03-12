@@ -10,6 +10,7 @@ import {
 } from "@hyperlane-xyz/sdk";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-etherscan";
+import "hardhat-gas-reporter";
 import {HardhatUserConfig, task, types} from "hardhat/config";
 import networks from "./hardhat.network";
 import {CONTRACT_NAMES, FUNCTION_NAMES, GAS_LIMIT} from "./utils/constants";
@@ -69,6 +70,9 @@ const config: HardhatUserConfig = {
     target: 'ethers-v5',
     alwaysGenerateOverloads: false,
   },
+  gasReporter: {
+    enabled: !!process.env.REPORT_GAS,
+  }
 };
 
 const multiProvider = new MultiProvider(chainConnectionConfigs);

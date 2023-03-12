@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
 
-import "@hyperlane-xyz/core/interfaces/IInbox.sol";
-import "@hyperlane-xyz/core/interfaces/IMessageRecipient.sol";
-import "@hyperlane-xyz/core/contracts/libs/TypeCasts.sol";
-import "./ERC5164/libraries/ERC5164CallData.sol";
-import "./ERC5164/interfaces/IERC5164CrossChainRelayer.sol";
-import "./ERC5164/utils/ERC5164CrossChainExecutorBase.sol";
+import { IInbox } from "@hyperlane-xyz/core/interfaces/IInbox.sol";
+import { IMessageRecipient } from "@hyperlane-xyz/core/interfaces/IMessageRecipient.sol";
+import { TypeCasts } from "@hyperlane-xyz/core/contracts/libs/TypeCasts.sol";
+
+import { IERC5164CrossChainRelayer } from "./interfaces/IERC5164CrossChainRelayer.sol";
+import { ERC5164CrossChainExecutorBase } from "./utils/ERC5164CrossChainExecutorBase.sol";
+import { Call } from "./utils/Call.sol";
 
 /**
  * @title HyperlaneERC5164Executor implementation
@@ -44,9 +45,9 @@ contract HyperlaneERC5164Executor is ERC5164CrossChainExecutorBase, IMessageReci
   ) external onlyTrustedInbox(_origin) {
     IERC5164CrossChainRelayer _relayer = IERC5164CrossChainRelayer(TypeCasts.bytes32ToAddress(_sender));
 
-    (uint256 _nonce, address _callsSender, ERC5164CallData.Call[] memory _calls) = abi.decode(
+    (uint256 _nonce, address _callsSender, Call[] memory _calls) = abi.decode(
       _message,
-      (uint256, address, ERC5164CallData.Call[])
+      (uint256, address, Call[])
     );
 
     _executeCalls(_relayer, _nonce, _callsSender, _calls);
