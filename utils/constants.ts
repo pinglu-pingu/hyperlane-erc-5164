@@ -1,18 +1,17 @@
 export const CONTRACT_NAMES = {
-  HYPERLANE_EIP5164_RELAYER: 'HyperlaneERC5164Relayer',
-  HYPERLANE_EIP5164_EXECUTOR: 'HyperlaneERC5164Executor',
-  EIP5164_CALL_TARGET: 'MockERC5164CallTarget',
+  HYPERLANE_EIP5164_MESSAGE_DISPATCHER: 'HyperlaneERC5164MessageDispatcher',
+  HYPERLANE_EIP5164_MESSAGE_EXECUTOR: 'HyperlaneERC5164MessageExecutor',
+  EIP5164_MESSAGE_TARGET: 'MockERC5164MessageTarget',
 };
 
 export const EVENTS_NAMES = {
-  RELAYED_CALLS: 'RelayedCalls',
+  DISPATCHED_MESSAGE: 'MessageDispatched',
 };
 
 export const FUNCTION_NAMES = {
-  EIP5164_CALL_TARGET_RECEIVE_MESSAGE: 'receiveMessage',
+  EIP5164_MESSAGE_TARGET_RECEIVE_MESSAGE: 'receiveMessage',
 };
 
 export const GAS_LIMIT = {
-  MAX: 8000000,
-  CALL: 1000000,
+  MAX: 100000000000,
 };
