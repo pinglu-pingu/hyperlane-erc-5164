@@ -3,8 +3,8 @@
 [EIP-5164](https://eips.ethereum.org/EIPS/eip-5164) defines a cross-chain execution interface for EVM-based blockchains allowing contracts on one chain to call contracts on another.
 This repo contains an implementation of EIP-5164 that uses [Hyperlane](https://www.hyperlane.xyz/) as the transport layer.
 
-The two main contracts are [HyperlaneERC5164Relayer.sol](./contracts/HyperlaneERC5164Relayer.sol) and [HyperlaneERC5164Executor](./contracts/HyperlaneERC5164Executor.sol) 
-which are implementations of EIP-5164 [CrossChainRelayer](https://eips.ethereum.org/EIPS/eip-5164#crosschainrelayer) and [CrossChainExecutor](https://eips.ethereum.org/EIPS/eip-5164#crosschainexecutor) respectively
+The two main contracts are [HyperlaneERC5164MessageDispatcher.sol](./contracts/HyperlaneERC5164MessageDispatcher.sol) and [HyperlaneERC5164MessageExecutor](./contracts/HyperlaneERC5164MessageExecutor.sol) 
+which are implementations of EIP-5164 [MessageDispatcher](https://eips.ethereum.org/EIPS/eip-5164#messagedispatcher) and [MessageExecutor](https://eips.ethereum.org/EIPS/eip-5164#messageexecutor) respectively
 as well implementations of Hyperlane [Message Sender](https://docs.hyperlane.xyz/hyperlane-docs/developers/messaging-api/send) and [Message Recipient](https://docs.hyperlane.xyz/hyperlane-docs/developers/messaging-api/receive) respectively 
 allowing them to provide an EIP-5164 interface while using Hyperlane as the cross-chain transport layer.
 
@@ -43,28 +43,28 @@ $ yarn build
 $ yarn clean
 ```
 
-#### Deploy Hyperlane EIP-5164 relayer and executor contracts
+#### Deploy Hyperlane EIP-5164 dispatcher and executor contracts
 
 ##### Deploy the Hyperlane EIP-5164 executor
 ```sh
 $ yarn hardhat deploy-executor --network goerli --origin moonbasealpha
 ```
 
-##### Deploy the Hyperlane EIP-5164 relayer
+##### Deploy the Hyperlane EIP-5164 dispatcher
 ```sh
-$ yarn hardhat deploy-relayer --network moonbasealpha --executor "EXECUTOR_ADDRESS" --remote goerli
+$ yarn hardhat deploy-dispatcher --network moonbasealpha --executor "EXECUTOR_ADDRESS" --remote goerli
 ```
 
-#### Send messages via Hyperlane EIP-5164 relayer and executor contracts
+#### Send messages via Hyperlane EIP-5164 dispatcher and executor contracts
 
 ##### Deploy an EIP-5164 call target
 ```sh
 $ yarn hardhat deploy-call-target --network goerli --executor "EXECUTOR_ADDRESS"
 ```
 
-##### Send a message to the EIP-5164 call target via the EIP-5164 relayer and executor contracts
+##### Send a message to the EIP-5164 call target via the EIP-5164 dispatcher and executor contracts
 ```sh
-$ yarn hardhat send-message --network moonbasealpha --relayer "RELAYER_ADDRESS" --target "CALL_TARGET_ADDRESS" --message "MESSAGE"
+$ yarn hardhat send-message --network moonbasealpha --dispatcher "DISPATCHER_ADDRESS" --target "MESSAGE_TARGET_ADDRESS" --message "MESSAGE"
 ```
 
 ### Automated Testing
